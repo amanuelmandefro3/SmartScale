@@ -1,0 +1,26 @@
+{% extends "app/base.html" %}
+{% block content %}
+    <form method="post" class="container mt-5">
+        {% csrf_token %}
+        <h1>Update Medicine</h1>
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}<div class="alert alert-danger">{{ error }}</div>{% endfor %}
+        {% endif %}
+        {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+        {% for field in form.visible_fields %}
+            {% for error in field.errors %}<div class="alert alert-danger">{{ error }}</div>{% endfor %}
+            {% if field.use_fieldset %}
+                <fieldset class="form-group mb-3">
+                    {% if field.label %}{{ field.legend_tag }}{% endif %}
+                    {{ field }}
+                </fieldset>
+            {% else %}
+                <div class="form-group mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        <input type="submit" value="Update" class="btn btn-primary">
+    </form>
+{% endblock content %}

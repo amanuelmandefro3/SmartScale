@@ -1,0 +1,53 @@
+{% extends "app/base.html" %}
+{% block content %}
+    <!-- <h3>Current Mass: {{ mass }} kg</h3> -->
+    <div class="container">
+        <h1 class="mt-5">Medicine List</h1>
+        <table class="table table-bordered mt-4">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Expiry Date</th>
+                    <th>Stoke amount</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ scale.name }}</td>
+                    <td>{{ scale.expire_date|date:"F d, Y"}}</td>
+                    <td>{{ mass }} KG</td>
+                    <!-- <td>{{ scale.expire_date|date:"F d, Y" }}</td> -->
+                    <td>
+                       <!-- {{ upto_expiry }} -->
+                        {% if upto_expiry < 30 and mass < 1000%}
+                        <div class="text-danger">Expiring soon and Less amount</div>
+                        {% elif upto_expiry < 30 %}
+                        <div class="text-danger">Expiring soon</div>
+                        {% elif mass < 1000%}
+                        <div class="text-danger">Less amount</div>
+                        {% else %}
+                        <div class="text-success">Good condition</div>
+                        {% endif %}
+                    </td>
+                    <!-- {% if myvar == 1 %}
+                    <h1>Hello!</h1>
+                    {% else %}
+                    <h1>Greetings!</h1>
+                    {% endif %} -->
+                    <td>
+                        <a href="{% url "scale_update" pk=scale.id %}"
+                           class="btn btn-warning btn-sm">Update</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function autoRefresh() {
+            window.location = window.location.href;
+        }
+        setInterval('autoRefresh()', 50000);
+    </script>
+{% endblock content %}
